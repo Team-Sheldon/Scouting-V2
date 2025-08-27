@@ -235,7 +235,7 @@
                 <div class="filters-section">
                     <div class="search-bar">
                         <i class="fas fa-search"></i>
-                        <input type="text" id="teamSearch" placeholder="Search teams by number, name, or scout...">
+                        <input type="text" id="teamSearch" placeholder="Search teams by number, name, scout, reliability, or date...">
                     </div>
                     
                     <div class="filters">
@@ -332,6 +332,49 @@
                 <div id="teamDetailsContent">
                     <!-- Content will be populated by JavaScript -->
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Team Modal -->
+    <div id="editTeamModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Team</h2>
+                <button class="modal-close" onclick="closeEditModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="editTeamName">Team Name</label>
+                    <input type="text" id="editTeamName">
+                </div>
+                <div class="form-group">
+                    <label for="editScoutName">Scout Name</label>
+                    <input type="text" id="editScoutName">
+                </div>
+                <div class="form-group">
+                    <label for="editReliability">Reliability</label>
+                    <select id="editReliability">
+                        <option value="">Select Reliability</option>
+                        <option value="Very High">Very High</option>
+                        <option value="High">High</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Low">Low</option>
+                        <option value="Very Low">Very Low</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="editDate">Date</label>
+                    <input type="date" id="editDate">
+                </div>
+                <div class="form-group">
+                    <label for="editNotes">Notes</label>
+                    <textarea id="editNotes"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn secondary" onclick="closeEditModal()">Cancel</button>
+                <button class="btn primary" onclick="saveTeamEdits()">Save</button>
             </div>
         </div>
     </div>

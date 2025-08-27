@@ -169,13 +169,14 @@ class ScoutingManager {
             const teamNumber = String(team.teamNumber || team.number || '').toLowerCase();
             const teamName = (team.teamName || team.name || '').toLowerCase();
             const scoutName = (team.scoutName || team.scout || team.scoutedBy || team.createdBy || '').toLowerCase();
-            const reliabilityVal = team.reliability;
-            const dateVal = team.date || team.createdAt || team.timestamp;
+            const reliabilityVal = (team.reliability || '').toLowerCase();
+            const dateValRaw = team.date || team.createdAt || team.timestamp || '';
+            const dateVal = String(dateValRaw).toLowerCase();
 
-            if (search && !(teamNumber.includes(search) || teamName.includes(search) || scoutName.includes(search))) return false;
-            if (reliability && reliabilityVal !== reliability) return false;
+            if (search && !(teamNumber.includes(search) || teamName.includes(search) || scoutName.includes(search) || reliabilityVal.includes(search) || dateVal.includes(search))) return false;
+            if (reliability && team.reliability !== reliability) return false;
             if (scout && scoutName !== scout) return false;
-            if (date && dateVal && !dateVal.startsWith(date)) return false;
+            if (date && (!dateValRaw || !String(dateValRaw).startsWith(date))) return false;
             return true;
         });
 
@@ -244,7 +245,6 @@ class ScoutingManager {
                 </div>
                 <div class="team-card-body">
                     <p><i class="fas fa-user"></i> ${team.scoutName || team.scout || team.scoutedBy || team.createdBy || 'Unknown'}</p>
-                    <p><i class="fas fa-star"></i> ${team.reliability || 'N/A'}</p>
                     <p><i class="fas fa-calendar-alt"></i> ${this.formatDate(team.date || team.createdAt || team.timestamp)}</p>
                 </div>
             </div>
@@ -324,6 +324,25 @@ class ScoutingManager {
         URL.revokeObjectURL(url);
     }
 
+    formatLabel(key) {
+        return key.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase());
+    }
+
+    formatValue(value) {
+        if (value === null || value === undefined || value === '') return 'N/A';
+        if (typeof value === 'string' && /^\d{4}-\d{2}-\d{2}/.test(value)) {
+            return this.formatDate(value);
+        }
+        if (typeof value === 'object') return JSON.stringify(value);
+        return value;
+    }
+
+    generateTeamDetails(team) {
+        return Object.entries(team).map(([key, value]) => `
+            <p><strong>${this.formatLabel(key)}:</strong> ${this.formatValue(value)}</p>
+        `).join('');
+    }
+
     showTeamDetails(id) {
         const team = this.allTeams.find(t => String(t.id || t.teamNumber) === String(id));
         if (!team) return;
@@ -332,12 +351,7 @@ class ScoutingManager {
         const title = document.getElementById('modalTeamTitle');
         if (title) title.textContent = `Team ${team.teamNumber} - ${team.teamName || ''}`;
         if (content) {
-            content.innerHTML = `
-                <p><strong>Scout:</strong> ${team.scoutName || team.scout || team.scoutedBy || team.createdBy || 'Unknown'}</p>
-                <p><strong>Reliability:</strong> ${team.reliability || 'N/A'}</p>
-                <p><strong>Date:</strong> ${this.formatDate(team.date || team.createdAt || team.timestamp)}</p>
-                ${team.notes ? `<p><strong>Notes:</strong> ${team.notes}</p>` : ''}
-            `;
+            content.innerHTML = this.generateTeamDetails(team);
         }
         if (modal) modal.classList.add('show');
         this.selectedTeam = team;
@@ -350,7 +364,54 @@ class ScoutingManager {
 
     editTeam() {
         if (!this.selectedTeam) return;
-        showNotification('Edit team feature not implemented', 'warning');
+        const modal = document.getElementById('editTeamModal');
+        if (modal) {
+            document.getElementById('editTeamName').value = this.selectedTeam.teamName || '';
+            document.getElementById('editScoutName').value = this.selectedTeam.scoutName || this.selectedTeam.scout || this.selectedTeam.scoutedBy || this.selectedTeam.createdBy || '';
+            document.getElementById('editReliability').value = this.selectedTeam.reliability || '';
+            const dateVal = this.selectedTeam.date || this.selectedTeam.createdAt || this.selectedTeam.timestamp;
+            document.getElementById('editDate').value = dateVal ? new Date(dateVal).toISOString().split('T')[0] : '';
+            document.getElementById('editNotes').value = this.selectedTeam.notes || '';
+            modal.classList.add('show');
+        }
+    }
+
+    closeEditModal() {
+        document.getElementById('editTeamModal')?.classList.remove('show');
+    }
+
+    async saveTeamEdits() {
+        if (!this.selectedTeam) return;
+        const updated = {
+            teamName: document.getElementById('editTeamName').value,
+            scoutName: document.getElementById('editScoutName').value,
+            reliability: document.getElementById('editReliability').value,
+            date: document.getElementById('editDate').value,
+            notes: document.getElementById('editNotes').value
+        };
+        try {
+            const token = localStorage.getItem('authToken');
+            const response = await fetch(`${this.API_BASE}/api/teams/${this.selectedTeam.id || this.selectedTeam.teamNumber}`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updated)
+            });
+            if (response.ok) {
+                Object.assign(this.selectedTeam, updated);
+                this.applyFilters();
+                this.showTeamDetails(this.selectedTeam.id || this.selectedTeam.teamNumber);
+                showNotification('Team updated', 'success');
+                this.closeEditModal();
+            } else {
+                showNotification('Failed to update team', 'error');
+            }
+        } catch (error) {
+            console.error('Edit team error:', error);
+            showNotification('Failed to update team', 'error');
+        }
     }
 
     async deleteTeam() {
@@ -392,9 +453,27 @@ class ScoutingManager {
         if (btn) btn.disabled = true;
     }
 
-    confirmBulkDelete() {
+    async confirmBulkDelete() {
         this.closeBulkDeleteModal();
-        showNotification('Bulk delete not implemented', 'warning');
+        try {
+            const token = localStorage.getItem('authToken');
+            const response = await fetch(`${this.API_BASE}/api/teams`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (response.ok) {
+                showNotification('All teams deleted', 'success');
+                await this.loadTeams(false);
+            } else {
+                showNotification('Failed to delete teams', 'error');
+            }
+        } catch (error) {
+            console.error('Bulk delete error:', error);
+            showNotification('Failed to delete teams', 'error');
+        }
     }
 
     updateStats() {
@@ -486,6 +565,8 @@ if (typeof window !== 'undefined') {
         window.closeTeamModal = () => manager.closeTeamModal();
         window.editTeam = () => manager.editTeam();
         window.deleteTeam = () => manager.deleteTeam();
+        window.closeEditModal = () => manager.closeEditModal();
+        window.saveTeamEdits = () => manager.saveTeamEdits();
         window.closeBulkDeleteModal = () => manager.closeBulkDeleteModal();
         window.confirmBulkDelete = () => manager.confirmBulkDelete();
     });
