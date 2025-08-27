@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - TeamSheldon Admin</title>
+    <meta name="description" content="TeamSheldon Admin Analytics - Team performance and scouting insights">
+    <link rel="icon" href="../Version 2/logo.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="index.css">
+    
+    <!-- Chart.js for graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Unified Notification System -->
+    <script src="notifications.js"></script>
+    
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://api.teamsheldon.tech https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://challenges.cloudflare.com ws://127.0.0.1:3001; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https://api.teamsheldon.tech https://challenges.cloudflare.com ws://127.0.0.1:3001 https://ipapi.co https://cdn.jsdelivr.net; font-src 'self' https://cdnjs.cloudflare.com;">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+</head>
+<body class="dashboard-page">
+    <!-- Background Animation -->
+    <div class="background-animation">
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+        </div>
+    </div>
+
+    <!-- Dashboard Container -->
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <aside class="dashboard-sidebar" id="dashboardSidebar">
+            <div class="sidebar-header">
+                <div class="logo-section">
+                    <i class="fas fa-shield-alt logo-icon"></i>
+                    <h2>TeamSheldon</h2>
+                    <span class="subtitle">Admin Panel</span>
+                </div>
+                <button class="sidebar-toggle" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <h3 class="nav-section-title">Main</h3>
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="Dashboard.html" class="nav-link">
+                                <i class="fas fa-tachometer-alt"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="Analytics.html" class="nav-link active">
+                                <i class="fas fa-chart-bar"></i>
+                                <span>Analytics</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="Activity.html" class="nav-link">
+                                <i class="fas fa-history"></i>
+                                <span>Activity</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <h3 class="nav-section-title">Team Management</h3>
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="Scouting.html" class="nav-link">
+                                <i class="fas fa-binoculars"></i>
+                                <span>Scouting</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="Whiteboards.html" class="nav-link">
+                                <i class="fas fa-chalkboard"></i>
+                                <span>Whiteboards</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <h3 class="nav-section-title">System</h3>
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="API.html" class="nav-link">
+                                <i class="fas fa-plug"></i>
+                                <span>API Management</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="AI.html" class="nav-link">
+                                <i class="fas fa-brain"></i>
+                                <span>AI Assistant</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="BetterStack.html" class="nav-link">
+                                <i class="fas fa-server"></i>
+                                <span>BetterStack</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="Security.html" class="nav-link">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>Security</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="Settings.html" class="nav-link">
+                                <i class="fas fa-cog"></i>
+                                <span>Settings</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- System Status -->
+            <div class="sidebar-footer">
+                <!-- User Info Section in Sidebar -->
+                <div class="sidebar-user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="user-details">
+                        <span class="user-name" id="sidebarUserName">Admin User</span>
+                        <span class="user-role" id="sidebarUserRole">Administrator</span>
+                        <span class="user-email" id="sidebarUserEmail">admin@teamsheldon.tech</span>
+                    </div>
+                </div>
+                <button class="logout-btn" onclick="performLogout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <!-- Header -->
+            <header class="dashboard-header">
+                <div class="header-left">
+                    <!-- Burger Menu Button (shown when sidebar is hidden) -->
+                    <button class="burger-menu-btn" id="burgerMenuBtn" title="Open Sidebar">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="system-status">
+                        <div class="status-item">
+                            <div class="status-indicator" id="apiStatus"></div>
+                            <span>API Status</span>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-indicator" id="dbStatus"></div>
+                            <span>Database</span>
+                        </div>
+                    </div>
+                    <!-- Action Buttons -->
+                    <div class="header-actions">
+                        <button class="action-btn" onclick="refreshAnalytics()" title="Refresh Data">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                        <button class="action-btn" onclick="exportAnalytics()" title="Export Analytics">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <!-- Title moved to right -->
+                    <div class="header-title">
+                        <h1>Analytics Overview</h1>
+                        <p class="header-subtitle">Team performance and scouting insights</p>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Analytics Content -->
+            <div class="dashboard-content">
+                <!-- Analytics Charts Row -->
+                <div class="charts-row">
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <h3>Team Performance Metrics</h3>
+                            <p>Performance analysis across key areas</p>
+                        </div>
+                        <div class="chart-content">
+                            <canvas id="performanceChart"></canvas>
+                            <div class="chart-loading" id="performanceLoading">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                <span>Loading performance data...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <h3>Scouting Activity</h3>
+                            <p>Scouting reports and activity trends</p>
+                        </div>
+                        <div class="chart-content">
+                            <canvas id="scoutingChart"></canvas>
+                            <div class="chart-loading" id="scoutingLoading">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                <span>Loading scouting data...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Second Charts Row -->
+                <div class="charts-row">
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <h3>Submission Timeline</h3>
+                            <p>Team submissions over time</p>
+                        </div>
+                        <div class="chart-content">
+                            <canvas id="timelineChart"></canvas>
+                            <div class="chart-loading" id="timelineLoading">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                <span>Loading timeline data...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="info-header">
+                            <h3>Popular Strategies</h3>
+                            <button class="info-action" onclick="viewAllStrategies()">
+                                View All <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                        <div class="strategies-list" id="strategiesList">
+                            <div class="strategies-loading">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                <span>Loading strategies...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Notification System -->
+    <div id="notificationContainer" class="notification-container"></div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-content">
+            <div class="loading-spinner-large">
+                <i class="fas fa-cog fa-spin"></i>
+            </div>
+            <p>Loading Analytics...</p>
+        </div>
+    </div>
+    <!-- Analytics JavaScript -->
+    <script src="Analytics.js"></script>
+</body>
+</html>

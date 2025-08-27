@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TeamSheldon Admin - Secure Login Portal</title>
+  <meta name="description" content="TeamSheldon Admin Panel - Professional authentication portal for admin.teamsheldon.tech">
+  <link rel="icon" href="../Version 2/logo.png" type="image/png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="index.css">
+  
+  <!-- Advanced Security Headers -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://api.teamsheldon.tech https://cdnjs.cloudflare.com https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https://api.teamsheldon.tech https://challenges.cloudflare.com ws://127.0.0.1:3001; font-src 'self' https://cdnjs.cloudflare.com; frame-src https://challenges.cloudflare.com;">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
+  
+  <!-- Cloudflare Turnstile -->
+      <!-- Cloudflare Turnstile -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    
+    <!-- Unified Notification System -->
+    <script src="notifications.js"></script>
+</head>
+<body class="login-page">
+  <!-- Background Animation -->
+  <div class="background-animation">
+    <div class="floating-shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+      <div class="shape shape-4"></div>
+      <div class="shape shape-5"></div>
+    </div>
+  </div>
+
+  <!-- Login Container -->
+  <div class="login-container">
+    <!-- Header Section -->
+    <div class="login-header">
+      <div class="logo-section">
+        <i class="fas fa-shield-alt logo-icon"></i>
+        <h1>TeamSheldon Admin</h1>
+        <p class="subtitle">Secure Authentication Portal</p>
+      </div>
+      <div class="domain-info">
+        <i class="fas fa-globe"></i>
+        <span>admin.teamsheldon.tech</span>
+      </div>
+    </div>
+
+    <!-- Security Notice -->
+    <div class="security-notice">
+      <i class="fas fa-exclamation-triangle"></i>
+      <span>Authorized Personnel Only - All Access Monitored</span>
+    </div>
+
+    <!-- Login Form -->
+    <form id="loginForm" class="login-form">
+      <!-- Username Field -->
+      <div class="input-group">
+        <label for="username">
+          <i class="fas fa-user"></i>
+          Username
+        </label>
+        <input type="text" id="username" name="username" required autocomplete="username" />
+        <div class="input-border"></div>
+      </div>
+
+      <!-- Password Field -->
+      <div class="input-group">
+        <label for="password">
+          <i class="fas fa-lock"></i>
+          Password
+        </label>
+        <div class="password-container">
+          <input type="password" id="password" name="password" required autocomplete="current-password" />
+          <button type="button" class="password-toggle" id="togglePassword">
+            <i class="fas fa-eye"></i>
+          </button>
+        </div>
+        <div class="input-border"></div>
+      </div>
+
+      <!-- Cloudflare Turnstile -->
+      <div class="input-group">
+        <label>Security Verification</label>
+        <div id="turnstile-widget"></div>
+      </div>
+
+      <!-- Terms of Service Agreement -->
+      <div class="input-group checkbox-group">
+        <label class="checkbox-label">
+          <input type="checkbox" id="agreeToS" name="agreeToS" required />
+          <span class="checkmark"></span>
+          <span class="checkbox-text">
+            I agree to the <a href="tos.html" target="_blank" class="tos-link">Terms of Service</a>
+          </span>
+        </label>
+      </div>
+
+      <!-- Login Warning -->
+      <div class="login-warning">
+        <i class="fas fa-eye"></i>
+        <span>Login attempts are monitored and logged</span>
+      </div>
+
+      <!-- Login Button -->
+      <button type="submit" class="login-btn" id="loginBtn" disabled>
+        <span class="btn-text">
+          <i class="fas fa-sign-in-alt"></i>
+          Secure Login
+        </span>
+        <div class="loading-spinner">
+          <i class="fas fa-spinner fa-spin"></i>
+        </div>
+      </button>
+    </form>
+
+    <!-- Footer -->
+    <div class="login-footer">
+      <p>&copy; 2025 TeamSheldon. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="tos.html" target="_blank">Terms of Service</a>
+        <span>|</span>
+        <a href="mailto:help@teamsheldon.tech">Support</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification System -->
+  <div id="notificationContainer" class="notification-container"></div>
+
+  <!-- Loading Overlay -->
+  <div id="loadingOverlay" class="loading-overlay">
+    <div class="loading-content">
+      <div class="loading-spinner-large">
+        <i class="fas fa-cog fa-spin"></i>
+      </div>
+      <p>Authenticating...</p>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="index.js"></script>
+</body>
+</html>

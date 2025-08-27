@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service - TeamSheldon Admin Panel</title>
+    <meta name="description" content="Terms of Service for TeamSheldon Admin Panel - admin.teamsheldon.tech">
+    <link rel="icon" href="../Version 2/logo.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        /* === ROOT VARIABLES === */
+        :root {
+            /* TeamSheldon Brand Colors */
+            --primary-color: #1a73e8;
+            --primary-dark: #1557b0;
+            --primary-light: #4285f4;
+            --secondary-color: #34a853;
+            --accent-color: #ea4335;
+            
+            /* Neutral Colors */
+            --background-color: #0f0f23;
+            --surface-color: #1a1a2e;
+            --surface-light: #252545;
+            --text-primary: #ffffff;
+            --text-secondary: #b8bcc8;
+            --text-muted: #8b8fa3;
+            --border-color: #2d3748;
+            
+            /* Gradients */
+            --primary-gradient: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            --background-gradient: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #252545 100%);
+            --card-gradient: linear-gradient(145deg, rgba(26, 26, 46, 0.8) 0%, rgba(37, 37, 69, 0.6) 100%);
+            
+            /* Shadows */
+            --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.2);
+            --shadow-xl: 0 16px 32px rgba(0, 0, 0, 0.25);
+            --glow-primary: 0 0 20px rgba(26, 115, 232, 0.3);
+            
+            /* Spacing */
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+            
+            /* Typography */
+            --font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-size-xs: 0.75rem;
+            --font-size-sm: 0.875rem;
+            --font-size-base: 1rem;
+            --font-size-lg: 1.125rem;
+            --font-size-xl: 1.25rem;
+            --font-size-2xl: 1.5rem;
+            --font-size-3xl: 2rem;
+            
+            /* Border Radius */
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            
+            /* Transitions */
+            --transition-fast: 0.15s ease-in-out;
+            --transition-normal: 0.3s ease-in-out;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: var(--background-gradient);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: var(--spacing-md);
+        }
+
+        /* === BACKGROUND ANIMATION === */
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .floating-shapes {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(45deg, rgba(26, 115, 232, 0.1), rgba(52, 168, 83, 0.1));
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .shape-1 {
+            width: 80px;
+            height: 80px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape-2 {
+            width: 120px;
+            height: 120px;
+            top: 20%;
+            right: 10%;
+            animation-delay: 4s;
+        }
+
+        .shape-3 {
+            width: 60px;
+            height: 60px;
+            bottom: 30%;
+            left: 20%;
+            animation-delay: 8s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0.3;
+            }
+            33% {
+                transform: translateY(-20px) rotate(120deg);
+                opacity: 0.6;
+            }
+            66% {
+                transform: translateY(20px) rotate(240deg);
+                opacity: 0.4;
+            }
+        }
+
+        /* === CONTAINER === */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--card-gradient);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--primary-gradient);
+            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+        }
+
+        /* === HEADER === */
+        .header {
+            background: var(--primary-gradient);
+            color: white;
+            padding: var(--spacing-2xl);
+            text-align: center;
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 10px solid var(--primary-color);
+        }
+
+        .header h1 {
+            font-size: var(--font-size-3xl);
+            margin-bottom: var(--spacing-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-md);
+        }
+
+        .header .logo-icon {
+            font-size: 2.5rem;
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+        }
+
+        .header p {
+            font-size: var(--font-size-lg);
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        /* === NAVIGATION === */
+        .navigation {
+            padding: var(--spacing-lg) var(--spacing-xl);
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(26, 26, 46, 0.3);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            background: var(--primary-gradient);
+            color: white;
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all var(--transition-normal);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl), var(--glow-primary);
+        }
+
+        /* === CONTENT === */
+        .content {
+            padding: var(--spacing-2xl);
+            line-height: 1.7;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin: var(--spacing-xl) 0 var(--spacing-lg) 0;
+            font-size: var(--font-size-xl);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: var(--spacing-sm);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        h2:first-of-type {
+            margin-top: 0;
+        }
+
+        h3 {
+            color: var(--text-primary);
+            margin: var(--spacing-lg) 0 var(--spacing-md) 0;
+            font-size: var(--font-size-lg);
+        }
+
+        p {
+            margin-bottom: var(--spacing-md);
+            color: var(--text-secondary);
+            text-align: justify;
+        }
+
+        ul, ol {
+            margin: var(--spacing-md) 0 var(--spacing-md) var(--spacing-xl);
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin-bottom: var(--spacing-sm);
+            padding-left: var(--spacing-sm);
+        }
+
+        /* === HIGHLIGHT BOX === */
+        .highlight {
+            background: linear-gradient(135deg, rgba(26, 115, 232, 0.1), rgba(26, 115, 232, 0.05));
+            border: 1px solid rgba(26, 115, 232, 0.3);
+            border-left: 4px solid var(--primary-color);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-xl) 0;
+            border-radius: var(--radius-md);
+            position: relative;
+        }
+
+        .highlight::before {
+            content: '\f06a';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: var(--spacing-md);
+            left: var(--spacing-md);
+            color: var(--primary-color);
+            font-size: var(--font-size-lg);
+        }
+
+        .highlight strong {
+            color: var(--primary-light);
+            padding-left: var(--spacing-xl);
+            display: block;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .highlight p {
+            padding-left: var(--spacing-xl);
+            margin-bottom: 0;
+        }
+
+        /* === CONTACT INFO === */
+        .contact-info {
+            background: linear-gradient(135deg, rgba(52, 168, 83, 0.1), rgba(52, 168, 83, 0.05));
+            border: 1px solid rgba(52, 168, 83, 0.3);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            margin-top: var(--spacing-2xl);
+            position: relative;
+        }
+
+        .contact-info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(135deg, var(--secondary-color), rgba(52, 168, 83, 0.7));
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        }
+
+        .contact-info h3 {
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        /* === EFFECTIVE DATE === */
+        .effective-date {
+            text-align: center;
+            font-style: italic;
+            color: var(--text-muted);
+            margin-top: var(--spacing-2xl);
+            padding-top: var(--spacing-xl);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .effective-date p {
+            margin-bottom: var(--spacing-sm);
+            font-size: var(--font-size-sm);
+        }
+
+        /* === RESPONSIVE DESIGN === */
+        @media (max-width: 768px) {
+            body {
+                padding: var(--spacing-sm);
+            }
+
+            .container {
+                margin: 0;
+                border-radius: var(--radius-lg);
+            }
+
+            .header {
+                padding: var(--spacing-xl);
+            }
+
+            .header h1 {
+                font-size: var(--font-size-2xl);
+                flex-direction: column;
+                gap: var(--spacing-sm);
+            }
+
+            .header .logo-icon {
+                font-size: 2rem;
+            }
+
+            .content {
+                padding: var(--spacing-lg);
+            }
+
+            .navigation {
+                padding: var(--spacing-md) var(--spacing-lg);
+            }
+
+            h2 {
+                font-size: var(--font-size-lg);
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--spacing-sm);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: var(--font-size-xl);
+            }
+
+            .content {
+                padding: var(--spacing-md);
+            }
+
+            .highlight {
+                padding: var(--spacing-md);
+            }
+
+            .highlight strong,
+            .highlight p {
+                padding-left: var(--spacing-lg);
+            }
+        }
+
+        /* === ACCESSIBILITY === */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            .floating-shapes .shape {
+                animation: none;
+            }
+        }
+
+        /* Focus styles for keyboard navigation */
+        a:focus-visible,
+        button:focus-visible {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Animation -->
+    <div class="background-animation">
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>
+                <i class="fas fa-shield-alt logo-icon"></i>
+                Terms of Service
+            </h1>
+            <p>TeamSheldon Admin Panel - Robotics Competition Management System</p>
+        </div>
+
+        <div class="navigation">
+            <a href="javascript:history.back()" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Back to Admin Panel
+            </a>
+        </div>
+
+        <div class="content">
+            <div class="highlight">
+                <strong>Important Notice:</strong>
+                <p>By accessing and using the TeamSheldon Admin Panel, you agree to comply with and be bound by these Terms of Service. Please read them carefully.</p>
+            </div>
+
+            <h2><i class="fas fa-check-circle"></i> Acceptance of Terms</h2>
+            <p>These Terms of Service ("Terms") govern your access to and use of the TeamSheldon Admin Panel ("Service"), operated by TeamSheldon ("we," "us," or "our"). By accessing or using our Service, you agree to be bound by these Terms.</p>
+
+            <h2><i class="fas fa-cogs"></i> Description of Service</h2>
+            <p>The TeamSheldon Admin Panel is a comprehensive management system designed for FIRST Robotics Competition teams to:</p>
+            <ul>
+                <li>Manage team scouting data and analytics</li>
+                <li>Monitor system security and user access</li>
+                <li>Generate reports and export competition data</li>
+                <li>Administer user accounts and permissions</li>
+                <li>Track whiteboard strategies and match planning</li>
+                <li>Integrate with AI-powered analysis tools</li>
+                <li>Monitor system performance and uptime</li>
+            </ul>
+
+            <h2><i class="fas fa-user-shield"></i> User Accounts and Access</h2>
+            <h3>Account Security</h3>
+            <ul>
+                <li>You are responsible for maintaining the confidentiality of your login credentials</li>
+                <li>You must not share your account information with unauthorized personnel</li>
+                <li>You agree to notify us immediately of any unauthorized use of your account</li>
+                <li>Sessions will automatically expire after 5 minutes for security purposes</li>
+                <li>All login attempts are monitored and logged for security analysis</li>
+            </ul>
+
+            <h3>Authorized Use</h3>
+            <ul>
+                <li>Access is restricted to authorized TeamSheldon members and approved personnel</li>
+                <li>You must have explicit permission to access administrative functions</li>
+                <li>Usage is limited to legitimate educational and competition-related activities</li>
+                <li>Account verification through security measures (including Cloudflare Turnstile) is required</li>
+            </ul>
+
+            <h2><i class="fas fa-database"></i> Data Protection and Privacy</h2>
+            <h3>Data Collection</h3>
+            <p>We collect and store the following information:</p>
+            <ul>
+                <li>Login credentials and authentication data</li>
+                <li>Team scouting information and competition data</li>
+                <li>System access logs and security monitoring data</li>
+                <li>User activity and interaction analytics</li>
+                <li>API usage statistics and performance metrics</li>
+                <li>Device fingerprints and session information</li>
+            </ul>
+
+            <h3>Data Usage</h3>
+            <ul>
+                <li>Data is used solely for competition preparation and team improvement</li>
+                <li>Information may be shared with team mentors and authorized coaching staff</li>
+                <li>We do not sell or distribute data to third parties</li>
+                <li>Data retention follows FIRST Robotics Competition guidelines</li>
+                <li>All data is encrypted both in transit and at rest</li>
+            </ul>
+
+            <h2><i class="fas fa-balance-scale"></i> Acceptable Use Policy</h2>
+            <h3>Permitted Activities</h3>
+            <ul>
+                <li>Managing team scouting data and competition information</li>
+                <li>Generating reports for strategy and improvement purposes</li>
+                <li>Monitoring system security and user access</li>
+                <li>Educational use related to robotics and STEM learning</li>
+                <li>Integration with approved third-party services (API, AI, BetterStack)</li>
+            </ul>
+
+            <h3>Prohibited Activities</h3>
+            <ul>
+                <li>Unauthorized access to other teams' confidential information</li>
+                <li>Attempting to circumvent security measures or access controls</li>
+                <li>Using the system for non-educational or commercial purposes</li>
+                <li>Sharing sensitive competition data with unauthorized parties</li>
+                <li>Attempting to disrupt, damage, or impair system functionality</li>
+                <li>Reverse engineering or attempting to extract source code</li>
+                <li>Using automated tools to scrape or harvest data</li>
+            </ul>
+
+            <h2><i class="fas fa-copyright"></i> Intellectual Property</h2>
+            <p>The TeamSheldon Admin Panel, including its design, functionality, and underlying code, is the intellectual property of TeamSheldon. Users are granted a limited, non-exclusive license to use the system for authorized purposes only. This includes all integrated services, APIs, and AI-powered features.</p>
+
+            <h2><i class="fas fa-shield-check"></i> System Security and Monitoring</h2>
+            <ul>
+                <li>All user activities are logged and monitored for security purposes</li>
+                <li>Suspicious activities may result in account suspension or termination</li>
+                <li>We employ industry-standard security measures to protect data</li>
+                <li>Users must comply with all security protocols and guidelines</li>
+                <li>Advanced threat detection and prevention systems are in place</li>
+                <li>Regular security audits and penetration testing are conducted</li>
+                <li>Multi-factor authentication may be required for sensitive operations</li>
+            </ul>
+
+            <h2><i class="fas fa-exclamation-triangle"></i> Limitation of Liability</h2>
+            <p>TeamSheldon provides this system "as is" without warranties of any kind. We are not liable for:</p>
+            <ul>
+                <li>System downtime or technical failures</li>
+                <li>Data loss or corruption (though we maintain regular backups)</li>
+                <li>Decisions made based on system-provided information</li>
+                <li>Indirect or consequential damages arising from system use</li>
+                <li>Third-party service interruptions (API, AI, monitoring services)</li>
+                <li>Network connectivity or internet service provider issues</li>
+            </ul>
+
+            <h2><i class="fas fa-trophy"></i> Competition Compliance</h2>
+            <p>Users must ensure that all activities comply with:</p>
+            <ul>
+                <li>FIRST Robotics Competition rules and regulations</li>
+                <li>Gracious Professionalism principles</li>
+                <li>Fair play and ethical competition standards</li>
+                <li>Applicable local and federal laws</li>
+                <li>International data protection regulations</li>
+                <li>Educational institution policies and guidelines</li>
+            </ul>
+
+            <h2><i class="fas fa-ban"></i> Account Termination</h2>
+            <p>We reserve the right to suspend or terminate accounts for:</p>
+            <ul>
+                <li>Violation of these Terms of Service</li>
+                <li>Suspicious or unauthorized activity</li>
+                <li>Extended periods of inactivity (180 days)</li>
+                <li>End of competition season or team membership</li>
+                <li>Failure to comply with security requirements</li>
+                <li>Misuse of integrated services or APIs</li>
+            </ul>
+
+            <h2><i class="fas fa-edit"></i> Changes to Terms</h2>
+            <p>We may update these Terms of Service periodically to reflect changes in our services, legal requirements, or security enhancements. Users will be notified of significant changes through the admin panel and email notifications. Continued use of the system constitutes acceptance of updated terms.</p>
+
+            <h2><i class="fas fa-gavel"></i> Governing Law</h2>
+            <p>These Terms are governed by the laws of the jurisdiction where TeamSheldon operates. Any disputes shall be resolved through appropriate legal channels, with preference for mediation and arbitration where applicable.</p>
+
+            <h2><i class="fas fa-robot"></i> AI and Automated Systems</h2>
+            <p>Our admin panel integrates with AI-powered features for enhanced analytics and decision support:</p>
+            <ul>
+                <li>AI-generated insights are provided for informational purposes only</li>
+                <li>Users are responsible for verifying and validating AI recommendations</li>
+                <li>AI systems are continuously improved but may contain inaccuracies</li>
+                <li>Privacy and data protection principles apply to AI processing</li>
+            </ul>
+
+            <h2><i class="fas fa-plug"></i> Third-Party Integrations</h2>
+            <p>The admin panel integrates with various third-party services:</p>
+            <ul>
+                <li>API integrations are subject to their respective terms of service</li>
+                <li>BetterStack monitoring services for system uptime and performance</li>
+                <li>Cloudflare security services for protection and verification</li>
+                <li>Users acknowledge that third-party service availability may vary</li>
+            </ul>
+
+            <div class="contact-info">
+                <h3><i class="fas fa-envelope"></i> Contact Information</h3>
+                <p>For questions about these Terms of Service or the TeamSheldon Admin Panel:</p>
+                <ul>
+                    <li><strong>Team:</strong> TeamSheldon FRC/FTC</li>
+                    <li><strong>Domain:</strong> admin.teamsheldon.tech</li>
+                    <li><strong>Email:</strong> help@teamsheldon.tech</li>
+                    <li><strong>System Support:</strong> Available through the admin panel</li>
+                </ul>
+                <p><strong>Emergency Security Issues:</strong> Contact team mentors immediately or use the secure contact form in the admin panel.</p>
+            </div>
+
+            <div class="effective-date">
+                <p><strong>Effective Date:</strong> August 26, 2025</p>
+                <p><strong>Last Updated:</strong> August 26, 2025</p>
+                <p><strong>Version:</strong> 2.0 - Enhanced Security & AI Integration</p>
+            </div>
+
+            <div class="navigation" style="margin-top: var(--spacing-xl); border-top: 1px solid var(--border-color); border-bottom: none;">
+                <a href="javascript:history.back()" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Admin Panel
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Auto-close if opened in popup
+        if (window.opener) {
+            window.addEventListener('beforeunload', () => {
+                if (window.opener && !window.opener.closed) {
+                    window.opener.focus();
+                }
+            });
+        }
+
+        // Add smooth scroll behavior for internal links
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate elements on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all content sections
+            const sections = document.querySelectorAll('h2, .highlight, .contact-info');
+            sections.forEach(section => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(20px)';
+                section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(section);
+            });
+
+            // Add notification for successful page load
+            setTimeout(() => {
+                const notification = document.createElement('div');
+                notification.innerHTML = `
+                    <div style="
+                        position: fixed;
+                        top: 20px;
+                        right: 20px;
+                        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+                        color: white;
+                        padding: 12px 20px;
+                        border-radius: 8px;
+                        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+                        z-index: 1000;
+                        font-size: 14px;
+                        opacity: 0;
+                        transform: translateX(100%);
+                        transition: all 0.3s ease;
+                    ">
+                        <i class="fas fa-info-circle" style="margin-right: 8px;"></i>
+                        Terms of Service loaded successfully
+                    </div>
+                `;
+                document.body.appendChild(notification);
+                
+                const notificationEl = notification.firstElementChild;
+                setTimeout(() => {
+                    notificationEl.style.opacity = '1';
+                    notificationEl.style.transform = 'translateX(0)';
+                }, 100);
+                
+                setTimeout(() => {
+                    notificationEl.style.opacity = '0';
+                    notificationEl.style.transform = 'translateX(100%)';
+                    setTimeout(() => document.body.removeChild(notification), 300);
+                }, 3000);
+            }, 500);
+        });
+    </script>
+</body>
+</html>
